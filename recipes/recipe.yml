@@ -12,7 +12,30 @@ image-version: 44 # You can pin to a specific version of Fedora as well
 # module configuration, executed in order
 # you can include multiple instances of the same module
 modules:
-  
+
+  - type: script # let the CachyOS kernel load its own kernel modules under SELinux enforcing
+    snippets:
+      - "setsebool -P domain_kernel_load_modules on"
+
+  - type: dnf # swap the stock kernel for the CachyOS kernel (https://copr.fedorainfracloud.org/coprs/bieszczaders/kernel-cachyos/)
+    repos:
+      cleanup: true # drop the COPR repo again once the kernel below is installed
+      copr:
+        - bieszczaders/kernel-cachyos
+
+    install:
+      packages:
+        - kernel-cachyos
+        - scx-scheds
+        - scx-tools
+    remove:
+      packages:
+        - kernel
+        - kernel-core
+        - kernel-modules
+        - kernel-modules-core
+        - kernel-modules-extra
+
   - type: files
     files:
       - source: system
@@ -38,5 +61,6 @@ modules:
         - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
         - firefox
         - toolbox
+
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
