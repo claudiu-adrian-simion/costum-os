@@ -23,9 +23,14 @@ modules:
     auto-upgrade: true
 
   - type: dnf
+    repos:
+      files:
+        - https://terra.fyralabs.com/terra.repo
     install:
       packages:
         - zsh
+        - terra-release
+        - zed
     remove:
       packages:
         # example: removing firefox (in favor of the flatpak)
