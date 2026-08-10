@@ -17,6 +17,10 @@ modules:
     snippets:
       - "setsebool -P domain_kernel_load_modules on"
 
+  - type: script # avoid rpm-ostree/dracut failing on missing modules.dep when installing a non-stock kernel (https://github.com/coreos/rpm-ostree/issues/5578)
+    snippets:
+      - "rpm-ostree cliwrap install-to-root /"
+
   - type: dnf # swap the stock kernel for the CachyOS kernel (https://copr.fedorainfracloud.org/coprs/bieszczaders/kernel-cachyos/)
     repos:
       cleanup: true # drop the COPR repos again once the packages below are installed
