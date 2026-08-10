@@ -17,6 +17,7 @@ modules:
     arch: x86_64
     kargs:
       - amdgpu.runpm=0
+      - amdgpu.dcdegubmask=0x10
   
   - type: files
     files:
@@ -28,9 +29,6 @@ modules:
     auto-upgrade: true
 
   - type: dnf
-    repos:
-      copr:
-        - atim/starship
     install:
       packages:
         - zsh
@@ -40,6 +38,7 @@ modules:
         # "firefox" is the main package, "firefox-langpacks" is a dependency
         - firefox
         - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
+        - toolbox
 
   - type: default-flatpaks
     configurations:
